@@ -1,6 +1,6 @@
 # Matrialo - Material Management System
 
-Matrialo is a web-based application for material management built on Laravel 11 framework. This application is designed to facilitate the management and monitoring of materials from various vendors in construction or manufacturing projects.
+Matrialo adalah sebuah aplikasi berbasis web untuk manajemen material yang dibangun menggunakan framework Laravel 11. Aplikasi ini dirancang untuk memudahkan pengelolaan dan monitoring material dari berbagai vendor dalam suatu proyek konstruksi atau manufaktur.
 
 ## Key Features
 
