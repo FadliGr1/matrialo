@@ -29,7 +29,7 @@
 
     <div class="row">
         <div class="col-12 col-lg-3 col-navbar d-none d-xl-block">
-
+ 
             <aside class="sidebar">
                 <a href="" class="sidebar-logo">
                     <div class="d-flex justify-content-start align-items-center">
@@ -567,8 +567,76 @@
         });
     </script>
 
-    {{-- update profile --}}
-   
+    {{-- aws config --}}
+    <script>
+        $(document).ready(function() {
+            $('#s3SettingsForm').on('submit', function(e) {
+            e.preventDefault();
+            
+            let formData = $(this).serialize();
+            console.log('Form data:', formData);  // Debug form data
+            
+            $.ajax({
+                url: "{{ route('settings.storage.update') }}",
+                type: "POST",
+                data: formData,
+                success: function(response) {
+                    console.log('Success:', response);  // Debug response
+                    if(response.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: response.success
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', xhr.responseText);  // Debug error
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: xhr.responseJSON?.error || 'Something went wrong!'
+                    });
+                }
+            });
+        });
+
+        $('#testS3Btn').click(function() {
+        $.ajax({
+            url: "{{ route('settings.storage.test') }}",
+            type: "POST",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            beforeSend: function() {
+                Swal.fire({
+                    title: 'Testing...',
+                    text: 'Testing S3 connection',
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+            },
+            success: function(response) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: response.success
+                });
+            },
+            error: function(xhr, status, error) {
+                console.error('Error details:', xhr.responseJSON);  // Tambahkan ini untuk debug
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: xhr.responseJSON?.error || 'Failed to test connection'
+                });
+            }
+        });
+    });
+        });
+    </script>
     
 </body>
 

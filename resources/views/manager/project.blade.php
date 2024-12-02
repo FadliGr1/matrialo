@@ -34,9 +34,9 @@
                             <td>{{ $project->project_name }}</td>
                             <td>{{ $project->project_id }}</td>
                             <td>{{ $project->projectManager->name }}</td>
+                            {{-- <td>{{ $project->id }}</td> --}}
                             <td>
-                                <button type="button" class="action-btn view-btn" title="View" 
-                                    data-bs-toggle="modal" data-bs-target="#viewProjectModal{{ $project->id }}">
+                                <button type="button" class="action-btn view-btn" title="View" data-bs-toggle="modal" data-bs-target="#viewProjectModal{{ $project->id }}">
                                     <i class="fas fa-eye"></i>
                                 </button>
                                 <button type="button" class="action-btn delete-btn" title="Delete" 
@@ -58,49 +58,48 @@
     </div>
 </div>
 
-{{-- Modal Edit Project (di dalam loop) --}}
-<div class="modal fade" id="viewProjectModal{{ $project->id }}" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content p-3">
-            <div class="modal-header">
-                <h5 class="modal-title">Edit Project</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form action="{{ route('manager.project.update', $project->id) }}" method="POST">
-                @csrf
-                @method('PUT')
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="project_name" class="form-label">Project Name</label>
-                        <input type="text" class="form-control" name="project_name" 
-                            value="{{ $project->project_name }}" required>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label for="project_id" class="form-label">Project ID</label>
-                        <input type="text" class="form-control" name="project_id" 
-                            value="{{ $project->project_id }}" required>
-                    </div>
+{{-- Modal Edit Project --}}
+@foreach ($projects as $project)
+    <div class="modal fade" id="viewProjectModal{{ $project->id }}" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content p-3">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Project</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{{ route('manager.project.update', $project->id) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="project_name_{{ $project->id }}" class="form-label">Project Name</label>
+                            <input type="text" class="form-control" id="project_name_{{ $project->id }}" name="project_name" value="{{ $project->project_name }}" required>
+                        </div>
 
-                    <div class="mb-3">
-                        <label for="project_manager_id" class="form-label">Project Manager</label>
-                        <select class="form-select" name="project_manager_id" required>
-                            @foreach($staffs as $staff)
-                                <option value="{{ $staff->id }}" 
-                                    {{ $project->project_manager_id == $staff->id ? 'selected' : '' }}>
-                                    {{ $staff->name }}
-                                </option>
-                            @endforeach
-                        </select>
+                        <div class="mb-3">
+                            <label for="project_id_{{ $project->id }}" class="form-label">Project ID</label>
+                            <input type="text" class="form-control" id="project_id_{{ $project->id }}" name="project_id" value="{{ $project->project_id }}" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="project_manager_id_{{ $project->id }}" class="form-label">Project Manager</label>
+                            <select class="form-select" id="project_manager_id_{{ $project->id }}" name="project_manager_id" required>
+                                @foreach($staffs as $staff)
+                                    <option value="{{ $staff->id }}" {{ $project->project_manager_id == $staff->id ? 'selected' : '' }}>
+                                        {{ $staff->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary col-12">Save Changes</button>
-                </div>
-            </form>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary col-12">Save Changes</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-</div>
+@endforeach
 {{-- Modal Add Project --}}
 <div class="modal fade" id="addProject" tabindex="-1" aria-labelledby="addProjectLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">

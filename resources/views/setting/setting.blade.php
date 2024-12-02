@@ -194,6 +194,21 @@
                         <div class="tab-pane fade" id="integration" role="tabpanel">
                             <h5 class="content-title mb-4">Integration Settings</h5>
                             <!-- Integration content -->
+                            <div class="document-card" >
+                                <div class="document-item py-2 px-1" data-bs-toggle="modal" data-bs-target="#s3SettingsModal" style="cursor: pointer;">
+                                    <div class="d-flex justify-content-start align-items-center">
+                                        <div class="document-icon globe">
+                                            <img src="{{asset('img/home/document/cloud-meatball-solid.svg')}}" alt="">
+                                        </div>
+                                        <div class="d-flex flex-column justify-content-between align-items-start">
+                                            <h2 class="document-title">AWS S3 Compatible</h2>
+                                            <span class="document-desc text-black">
+                                                setup S3 storage connection
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         @endif
                     </div>
@@ -379,7 +394,68 @@
             </form>
         </div>
     </div>
- </div>
+</div>
+
+{{-- modal aws --}}
+<!-- S3 Settings Modal -->
+<div class="modal fade" id="s3SettingsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content p-3">
+            <div class="modal-header">
+                <h5 class="modal-title">AWS S3 Compatible Storage Settings</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="s3SettingsForm">
+                @csrf
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Access Key ID</label>
+                        <input type="text" class="form-control" name="settings[aws_access_key_id]" 
+                            value="{{ $settings['aws_access_key_id'] ?? '' }}">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Secret Access Key</label>
+                        <input type="password" class="form-control" name="settings[aws_secret_access_key]" 
+                            value="{{ $settings['aws_secret_access_key'] ?? '' }}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Default Region</label>
+                        <input type="text" class="form-control" name="settings[aws_default_region]" 
+                            value="{{ $settings['aws_default_region'] ?? '' }}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Bucket</label>
+                        <input type="text" class="form-control" name="settings[aws_bucket]" 
+                            value="{{ $settings['aws_bucket'] ?? '' }}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Endpoint URL</label>
+                        <input type="text" class="form-control" name="settings[aws_endpoint]" 
+                            value="{{ $settings['aws_endpoint'] ?? '' }}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Use Path Style Endpoint</label>
+                        <select class="form-select" name="settings[aws_use_path_style_endpoint]">
+                            <option value="true" {{ ($settings['aws_use_path_style_endpoint'] ?? '') == 'true' ? 'selected' : '' }}>Yes</option>
+                            <option value="false" {{ ($settings['aws_use_path_style_endpoint'] ?? '') == 'false' ? 'selected' : '' }}>No</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-info" id="testS3Btn">
+                        <i class="fas fa-vial"></i> Test Connection
+                    </button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <style>
     .nav-tabs .nav-link {

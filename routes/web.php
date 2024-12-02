@@ -79,6 +79,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/vendor/setting', [SettingController::class, 'index'])->name('vendor.setting');
     Route::get('/staff/setting', [SettingController::class, 'index'])->name('staff.setting');
     Route::get('/admin/setting', [SettingController::class, 'index'])->name('admin.setting');
+    Route::post('/settings/storage', [SettingController::class, 'updateStorageSettings'])->name('settings.storage.update');
+    Route::post('/settings/storage/test', [SettingController::class, 'testStorage'])->name('settings.storage.test');
 });
 
 // Authentication Route
