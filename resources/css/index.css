@@ -713,7 +713,7 @@ table td .btn-danger:hover {
 }
 
 /* Notif Hover */
-.document-item {
+/* .document-item {
   transition: transform 0.5s ease, box-shadow 0.5s ease;
   border-radius: 8px;
 }
@@ -722,4 +722,4 @@ table td .btn-danger:hover {
   cursor: pointer;
   transform: scale(1.01);
   box-shadow: 0 8px 100px rgba(0, 0, 0, 0.2);
-}
+} */

@@ -4,12 +4,14 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ManagerController;
 use App\Http\Controllers\PagesController;
+use App\Http\Controllers\VendorController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\MvendorController;
 use App\Http\Controllers\MwarehouseController;
 use App\Http\Controllers\MprojectController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\MaterialController;
 
 
 Route::middleware('auth')->group(function () {
@@ -55,7 +57,15 @@ Route::middleware('auth')->group(function () {
 
     // Vendor Routes
     Route::middleware('role:vendor')->prefix('vendor')->group(function () {
-        Route::get('/dashboard', 'VendorController@dashboard')->name('vendor.dashboard');
+        Route::get('/dashboard', [VendorController::class,'dashboard'])->name('vendor.dashboard');
+
+        // materials request
+        Route::get('/materials', [VendorController::class,'materials'])->name('vendor.materials');
+        Route::get('/materials', [MaterialController::class, 'index'])->name('vendor.materials');
+        Route::put('/materials/{id}', [MaterialController::class, 'update'])->name('vendor.materials.update');
+
+        // do release
+        Route::get('/dorelease', [VendorController::class,'dorelease'])->name('vendor.dorelease');
        
     });
 
